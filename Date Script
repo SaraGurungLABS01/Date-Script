@@ -1,0 +1,81 @@
+def simulate_date():
+    print("Welcome to the Date Simulator!")
+
+    # Get the name of the person you are on a date with
+    partner_name = input("Who is on the date with you? ")
+
+    # Get the budget 
+    budget = float(input("Enter your budget for the date: $"))
+
+    print(f"Great! You have ${budget:.2f} to spend on your date with {partner_name}.")
+
+    # Menu items #dictionary
+    menu = {
+        "Salad": 8.99,
+        "Burger": 12.99,
+        "Pizza": 10.99,
+        "Salmon": 30.99,  
+        "Steak": 35.99,    
+        "Carbonara": 25.99, 
+        "Soda": 2.99,
+        "Wine": 14.99,
+        "Dessert": 6.99,
+      
+    }
+
+    # Initialize variables
+    total_cost = 0.0
+    user_choices = []
+    partner_choices = []
+
+    while True:  # Allow the user to choose when to stop ordering
+        print("\nMenu:")
+        for item, price in menu.items():
+            print(f"{item}: ${price:.2f}")
+
+        # User's turn
+        user_choice = input("What would you like to order? (Enter 'quit' to finish): ").strip()
+        
+        if user_choice.lower() == 'quit':
+            break  # Exit the loop if the user enters 'quit'
+
+        if user_choice not in menu:
+            print("Invalid choice. Please select an item from the menu.")
+            continue
+
+        item_cost = menu[user_choice]
+        if budget >= item_cost:
+            budget -= item_cost
+            total_cost += item_cost
+            user_choices.append(user_choice)
+            print(f"You ordered {user_choice}. You have ${budget:.2f} left.")
+        else:
+            print("Not enough budget to order that item. Please choose something else.")
+
+        # Partner's turn
+        partner_choice = input(f"What would {partner_name} like to order? ").strip()
+        if partner_choice not in menu:
+            print(f"Invalid choice for {partner_name}. Please select an item from the menu.")
+            continue
+
+        partner_item_cost = menu[partner_choice]
+        if budget >= partner_item_cost:
+            budget -= partner_item_cost
+            total_cost += partner_item_cost
+            partner_choices.append(partner_choice)
+            print(f"{partner_name} ordered {partner_choice}. You have ${budget:.2f} left.")
+        else:
+            print(f"Not enough budget to order {partner_choice} for {partner_name}. Please choose something else.")
+
+    # Display the total cost of the date
+    print("\nYou've finished ordering!")
+    print(f"Total cost of the date: ${total_cost:.2f}")
+
+    # Decide if there will be a second date
+    if total_cost <= 0.7 * budget:
+        print(f"\nCongratulations! {partner_name} agrees to a second date.")
+    else:
+        print(f"\nUnfortunately, {partner_name} decides not to go on a second date.")
+
+if __name__ == "__main__":
+    simulate_date()
